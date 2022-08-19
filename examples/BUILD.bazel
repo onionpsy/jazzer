@@ -118,6 +118,20 @@ java_fuzz_target_test(
     target_compatible_with = SKIP_ON_MACOS,
 )
 
+java_fuzz_target_test(
+    name = "XxeFuzzer",
+    srcs = [
+        "src/main/java/com/example/XxeFuzzer.java",
+    ],
+    expected_findings = ["java.lang.StackOverflowError"],
+    target_class = "com.example.XxeFuzzer",
+    deps = [
+        "@maven//:com_fasterxml_jackson_dataformat_jackson_dataformat_xml",
+        "@maven//:com_fasterxml_jackson_core_jackson_core",
+        "@maven//:com_fasterxml_jackson_core_jackson_databind",
+    ],
+)
+
 # WARNING: This fuzz target uses a vulnerable version of log4j, which could result in the execution
 # of arbitrary code during fuzzing if executed with an older JDK. Use at your own risk.
 java_fuzz_target_test(

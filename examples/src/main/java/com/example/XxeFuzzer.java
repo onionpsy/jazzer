@@ -21,35 +21,22 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import javax.xml.stream.XMLInputFactory;
 import java.io.IOException;
-import com.code_intelligence.jazzer.api.FuzzerSecurityIssueHigh;
 
 public class XxeFuzzer {
 
   public static void fuzzerTestOneInput(FuzzedDataProvider data) {
     XMLInputFactory xmlIn = XMLInputFactory.newFactory();
-    xmlIn.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
-    xmlIn.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
+    //xmlIn.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
+    // xmlIn.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
     XmlFactory factory = new XmlFactory(xmlIn);
     ObjectMapper mapper = new XmlMapper(factory);
 
-    //String foo = "<!DOCTYPE jaxxe SYSTEM \"http://localhost:3333\">";
-    /*String foo = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"http://localhost:3333\"> ]>\n" +
-            "<stockCheck><productId>&xxe;</productId></stockCheck>";*/
-
-    String foo = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<!DOCTYPE foo [ <!ENTITY xxe SYSTEM \"http://localhost:3333\"> ]>\n" +
-            "<foo>&xxe;</foo>";
-
-
-    //String foo = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE foo SYSTEM \"http://localhost:3333/evil.dtd\"> <specifications>&file;</specifications>";
-    //String foo = "<!DOCTYPE abc SYSTEM \"http://localhost:3333\">";
+    String foo = "<!DOCTYPE jaxxe SYSTEM \"http://localhost:3333\">";
 
     try {
-      mapper.readTree(foo); // data.consumeRemainingAsString());
+      mapper.readTree(foo);
     } catch (IOException e) {
       //System.out.println(e);
-      return;
     }
   }
 }
